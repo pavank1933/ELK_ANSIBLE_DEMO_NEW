@@ -1,0 +1,6 @@
+[elk]
+34.230.65.56 ansible_ssh_user=ec2-user ansible_ssh_private_key_file=/root/.ssh/id_rsa
+
+
+[elk-client]
+54.175.180.62 ansible_ssh_user=ec2-user ansible_ssh_private_key_file=/root/.ssh/id_rsa
