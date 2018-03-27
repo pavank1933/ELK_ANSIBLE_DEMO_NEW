@@ -1,5 +1,5 @@
 #!/bin/bash 
-input="/home/iplist" 
+input="/home/ubuntu/ELK_ANSIBLE_DEMO_NEW/ssh_auto/iplist" 
 while IFS= read -r var 
 do 
 ssh -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$var" <<'ENDSSH' 
