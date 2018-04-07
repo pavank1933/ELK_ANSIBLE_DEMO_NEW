@@ -17,3 +17,7 @@ done < "$input"
 rm -rf id_rsa.pub IOT-Pavan-Keypair.pem
 cd ..
 ansible-playbook -i hosts install/elk.yml 
+
+client=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=testc" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
+ansible-playbook -i hosts install/elk-client.yml --extra-vars 'elk_server=$client'
+
