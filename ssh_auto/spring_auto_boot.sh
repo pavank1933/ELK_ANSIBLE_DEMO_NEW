@@ -35,7 +35,7 @@ rm -rf spring-boot-web-jsp.zip
 cd spring-boot-web-jsp
 mvn dependency:tree
 #add this line
-echo "logging.file: /tmp/applcation.log" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties
+echo -e "logging.file: /tmp/applcation.log" >> /home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties
 #mvn spring-boot:run
 ENDSSH
 rm -rf IOT-Pavan-Keypair.pem
