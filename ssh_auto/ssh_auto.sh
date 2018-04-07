@@ -1,11 +1,8 @@
 #!/bin/bash 
-input="/home/ubuntu/ELK_ANSIBLE_DEMO_NEW/ssh_auto/iplist" 
-while IFS= read -r var 
-do 
-ssh -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$var" <<'ENDSSH' 
-cp -rpf /home/ec2-user/.ssh/authorized_keys /home/ec2-user/.ssh/authorized_keys-orig 
-ENDSSH
+cd /home/ec2-user
+cp -rpf /home/ec2-user/.ssh/authorized_keys /home/ec2-user/.ssh/authorized_keys-orig
 
-mapfile < /root/.ssh/id_rsa.pub    
-echo "${MAPFILE[@]}" | ssh -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$var" "cat >> /home/ec2-user/.ssh/authorized_keys"
-done < "$input"
+mapfile < /home/ec2-user/id_rsa.pub
+echo "${MAPFILE[@]}" | cat >> /home/ec2-user/.ssh/authorized_keys
+
+rm -rf *
