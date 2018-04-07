@@ -2,6 +2,7 @@
 cp -rpf /home/IOT-Pavan-Keypair.pem .
 client=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=testc" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text`
 ssh -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$client" <<'ENDSSH' 
+sudo su
 yum update -y
 yum install wget -y
 yum install git -y
@@ -24,7 +25,7 @@ wget http://www-eu.apache.org/dist/maven/maven-3/3.5.3/binaries/apache-maven-3.5
 sudo tar xzf apache-maven-3.5.3-bin.tar.gz
 sudo ln -s apache-maven-3.5.3  maven
 echo "export M2_HOME=/usr/local/maven" >> /etc/profile.d/maven.sh
-echo "export PATH=${M2_HOME}/bin:${PATH}" >> /etc/profile.d/maven.sh
+echo 'export PATH=${M2_HOME}/bin:${PATH}' >> /etc/profile.d/maven.sh
 source /etc/profile.d/maven.sh
 cd /home/ec2-user
 yum install unzip -y
@@ -35,6 +36,6 @@ cd spring-boot-web-jsp
 mvn dependency:tree
 #add this line
 echo "logging.file: /tmp/applcation.log" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties
-mvn spring-boot:run
+#mvn spring-boot:run
 ENDSSH
 rm -rf IOT-Pavan-Keypair.pem
