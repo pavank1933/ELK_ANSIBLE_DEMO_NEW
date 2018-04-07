@@ -61,3 +61,4 @@
   ignore_errors: true
   when: rsyslog_updated != 0
   become: true
+

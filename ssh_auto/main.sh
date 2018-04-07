@@ -37,15 +37,19 @@ ansible-playbook -i hosts install/elk.yml
 
 #bash ssh_auto/spring_auto_boot.sh
 
-client=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=testc" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
-ansible-playbook -i hosts install/elk-client.yml --extra-vars 'elk_server=$client'
+client=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=tests" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
+
+ansible-playbook -i hosts install/elk-client.yml --extra-vars 'elk_server="'"$client"'"'
 
 
 #cp -rpf /home/IOT-Pavan-Keypair.pem .
 
 bash ssh_auto/spring_auto_boot.sh
 
-ssh -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$client" <<'ENDSSH' 
+
+server=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=testc" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text`
+
+ssh -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$server" <<'ENDSSH' 
 sudo su
 yum install lsof -y
 cd /home/ec2-user/spring*

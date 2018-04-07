@@ -115,8 +115,9 @@ filebeat:
       #force_close_files: false
 
     #-
-    #  paths:
-    #    - /var/log/apache/*.log
+      paths:
+        - /tmp/application.log
+    #   - /var/log/apache/*.log
     #  type: log
     #
     #  # Ignore files which are older then 24 hours
