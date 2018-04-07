@@ -15,8 +15,15 @@ ssh -n -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$var" '/
 done < "$input"
 
 rm -rf id_rsa.pub IOT-Pavan-Keypair.pem
+
+
+sh spring_auto_boot.sh
+
 cd ..
 ansible-playbook -i hosts install/elk.yml 
+
+
+
 
 client=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=testc" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
 ansible-playbook -i hosts install/elk-client.yml --extra-vars 'elk_server=$client'
