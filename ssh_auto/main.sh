@@ -1,4 +1,10 @@
 #!/bin/bash 
+
+cp -rpf /home/IOT-Pavan-Keypair.pem .
+
+sh hosts_auto.sh
+sh iplist_auto.sh
+
 input="iplist"
 while IFS= read -r var 
 do
@@ -8,4 +14,6 @@ ssh -n -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$var" "c
 ssh -n -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$var" '/home/ec2-user/ssh_auto.sh'
 done < "$input"
 
-rm -rf id_rsa.pub
+rm -rf id_rsa.pub IOT-Pavan-Keypair.pem
+cd ..
+ansible-playbook -i hosts install/elk.yml 
