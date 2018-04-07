@@ -35,6 +35,7 @@ cp -rpf /home/IOT-Pavan-Keypair.pem .
 
 ssh -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$client" <<'ENDSSH' 
 sudo su
+yum install lsof -y
 cd /home/ec2-user/spring*
 kill -9 $(lsof -t -i:8080)
 mvn spring-boot:run
