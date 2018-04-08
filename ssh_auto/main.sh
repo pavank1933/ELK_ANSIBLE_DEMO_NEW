@@ -20,8 +20,12 @@ sleep 200
 
 cp -rpf /home/IOT-Pavan-Keypair.pem .
 
+#comment this
 sh hosts_auto.sh
+#comment this
 sh iplist_auto.sh
+
+#Uncomment this line
 #sh main_final.sh       #It will automate hosts and iplist at a time...Try it once
 
 input="iplist"
