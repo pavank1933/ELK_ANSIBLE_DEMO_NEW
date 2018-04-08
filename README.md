@@ -31,7 +31,7 @@ username: admin <br/>
 password: admin <br/>
 
 
-
+******Have automated whole thing******  <br/>
 *****ELK Client Instructions****** <br/>
 Run the client playbook against the generated elk_server variable <br/>
 ansible-playbook -i hosts install/elk-client.yml --extra-vars 'elk_server=X.X.X.X' <br/>
@@ -51,3 +51,4 @@ rpm --import https://packages.treasuredata.com/GPG-KEY-td-agent <br/>
 Issue name:- Error installing fluent-plugin-elasticsearch ERROR: Failed to build gem native extension <br/>
 
 Sol:- yum install gcc gcc-c++ ruby-devel -y resolved the issue-added this in ansible  <br/>
+******Have automated whole thing******  <br/>
