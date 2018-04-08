@@ -5,16 +5,20 @@ sudo apt-add-repository ppa:ansible/ansible  <br/>
 sudo apt-get update -y                  <br/>
 sudo apt-get install ansible -y    <br/>
 
-
+******Have automated whole thing******   <br/>
 -> Login to ubuntu Ansible   <br/>
 -> sudo su    <br/>
 -> Before this step do the ssh procedure(Like how we did in previous repo using "ssh_auto.sh") to the ELK clients and server from Ansible server <br/>
 -> In the repo change the "hosts" file with your ELK clients and server ip addresses. <br/>
+******Have automated whole thing******  <br/>
 
 *******Do the below steps:- <br/>
 git clone https://github.com/pavank1933/ELK_ANSIBLE_DEMO.git  <br/>
 cd ELK_ANSIBLE_DEMO  <br/>
-ansible-playbook -i hosts install/elk.yml <br/>
+cd ssh_auto  <br/>
+#This is the main file which automates the whole thing  <br/>
+bash main.sh   <br/>
+#ansible-playbook -i hosts install/elk.yml <br/>
 
 *******After this:-  <br/>
 Navigate to the ELK at http://ELK_SERVER_IP:80  <br/>
