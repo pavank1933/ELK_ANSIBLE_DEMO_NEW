@@ -1,3 +1,7 @@
+*********ELK STACK***************  <br/>
+The ELK stack consists of Elasticsearch, Logstash, and Kibana. Although they've all been built to work exceptionally well together, each one is a separate project that is driven by the open-source vendor Elastic—which itself began as an enterprise search platform vendor. It has now become a full-service analytics software company, mainly because of the success of the ELK stack.
+*********ELK STACK***************  <br/>
+
 
 *******Install Ansible Latest version in Ubuntu like below:-    <br/>
 sudo apt-get remove --purge ansible         <br/>
