@@ -36,12 +36,12 @@ cd spring-boot-web-jsp
 mvn dependency:tree
 #add this line
 
-cp -rpf /home/ec2-user/spring-boot-web-jsp/src/main/resources/applcation.properties /home/ec2-user/spring-boot-web-jsp/src/main/resources/applcation.properties-orig
->/home/ec2-user/spring-boot-web-jsp/src/main/resources/applcation.properties
-echo "spring.mvc.view.prefix: /WEB-INF/jsp/" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/applcation.properties
-echo "spring.mvc.view.suffix: .jsp" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/applcation.properties
-echo "welcome.message: Hello Mkyong" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/applcation.properties
-echo "logging.file: /tmp/applcation.log" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/applcation.properties
+cp -rpf /home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties /home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties-orig
+>/home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties
+echo "spring.mvc.view.prefix: /WEB-INF/jsp/" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties
+echo "spring.mvc.view.suffix: .jsp" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties
+echo "welcome.message: Hello Mkyong" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties
+echo "logging.file: /tmp/application.log" >>/home/ec2-user/spring-boot-web-jsp/src/main/resources/application.properties
 
 
 #mvn spring-boot:run
