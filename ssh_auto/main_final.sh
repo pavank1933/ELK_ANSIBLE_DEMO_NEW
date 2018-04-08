@@ -1,5 +1,6 @@
 #!/bin/bash
 #hosts_auto done
+
 echo "[elk]" >>../hosts
 
 elk=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=elk" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text`
