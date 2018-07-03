@@ -19,7 +19,7 @@ pip3 install --upgrade awscli
 
 
 #comment the below line...this gets automated in terraform template
-sleep 200
+#sleep 200
 
 cp -rpf /home/$keypair .
 
