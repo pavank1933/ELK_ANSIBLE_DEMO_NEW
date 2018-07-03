@@ -1,7 +1,7 @@
 #!/bin/bash
-cp -rpf /home/IOT-Pavan-Keypair.pem .
-client=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=testc" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text`
-ssh -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$client" <<'ENDSSH' 
+cp -rpf /home/elkprometheuskey.pem .
+client=`aws ec2 describe-instances --region us-east-2 --filters "Name=tag:Name,Values=elk_client" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text`
+ssh -o StrictHostKeyChecking=no -i "elkprometheuskey.pem" ec2-user@"$client" <<'ENDSSH' 
 sudo su
 yum update -y
 yum install wget -y
@@ -46,4 +46,4 @@ echo "logging.file: /tmp/application.log" >>/home/ec2-user/spring-boot-web-jsp/s
 
 #mvn spring-boot:run
 ENDSSH
-rm -rf IOT-Pavan-Keypair.pem
+rm -rf elkprometheuskey.pem

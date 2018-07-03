@@ -8,17 +8,17 @@ apt-get install python3-pip -y
 pip3 install --upgrade awscli
 
 #comment the below line...this gets automated in terraform template
-aws ec2 run-instances --iam-instance-profile Name=Admin_Role --image-id ami-26ebbc5c --count 1 --instance-type t2.medium --key-name IOT-Pavan-Keypair --security-group-ids sg-99e802e5 --placement AvailabilityZone=us-east-1a --block-device-mappings DeviceName=/dev/xvda,Ebs={VolumeSize=35} --count 1 --subnet-id subnet-a4ff9dff --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=tests}]' 'ResourceType=volume,Tags=[{Key=Name,Value=tests}]'
+#aws ec2 run-instances --iam-instance-profile Name=Admin_Role --image-id ami-26ebbc5c --count 1 --instance-type t2.medium --key-name IOT-Pavan-Keypair --security-group-ids sg-99e802e5 --placement AvailabilityZone=us-east-1a --block-device-mappings DeviceName=/dev/xvda,Ebs={VolumeSize=35} --count 1 --subnet-id subnet-a4ff9dff --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=tests}]' 'ResourceType=volume,Tags=[{Key=Name,Value=tests}]'
 
 
 #comment the below line...this gets automated in terraform template
-aws ec2 run-instances --iam-instance-profile Name=Admin_Role --image-id ami-26ebbc5c --count 1 --instance-type t2.medium --key-name IOT-Pavan-Keypair --security-group-ids sg-99e802e5 --placement AvailabilityZone=us-east-1a --block-device-mappings DeviceName=/dev/xvda,Ebs={VolumeSize=35} --count 1 --subnet-id subnet-a4ff9dff --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=testc}]' 'ResourceType=volume,Tags=[{Key=Name,Value=testc}]'
+#aws ec2 run-instances --iam-instance-profile Name=Admin_Role --image-id ami-26ebbc5c --count 1 --instance-type t2.medium --key-name IOT-Pavan-Keypair --security-group-ids sg-99e802e5 --placement AvailabilityZone=us-east-1a --block-device-mappings DeviceName=/dev/xvda,Ebs={VolumeSize=35} --count 1 --subnet-id subnet-a4ff9dff --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=testc}]' 'ResourceType=volume,Tags=[{Key=Name,Value=testc}]'
 
 
 #comment the below line...this gets automated in terraform template
 sleep 200
 
-cp -rpf /home/IOT-Pavan-Keypair.pem .
+cp -rpf /home/elkprometheuskey.pem .
 
 #comment this
 sh hosts_auto.sh
@@ -32,12 +32,12 @@ input="iplist"
 while IFS= read -r var 
 do
 cp -rpf /root/.ssh/id_rsa.pub .
-rsync -rave "ssh -o StrictHostKeyChecking=no -i IOT-Pavan-Keypair.pem" * ec2-user@"$var":/home/ec2-user
-ssh -n -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$var" "chmod a+x /home/ec2-user/ssh_auto.sh"
-ssh -n -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$var" '/home/ec2-user/ssh_auto.sh'
+rsync -rave "ssh -o StrictHostKeyChecking=no -i elkprometheuskey.pem" * ec2-user@"$var":/home/ec2-user
+ssh -n -o StrictHostKeyChecking=no -i "elkprometheuskey.pem" ec2-user@"$var" "chmod a+x /home/ec2-user/ssh_auto.sh"
+ssh -n -o StrictHostKeyChecking=no -i "elkprometheuskey.pem" ec2-user@"$var" '/home/ec2-user/ssh_auto.sh'
 done < "$input"
 
-rm -rf id_rsa.pub IOT-Pavan-Keypair.pem
+rm -rf id_rsa.pub elkprometheuskey.pem
 
 cd ..
 
@@ -50,7 +50,7 @@ ansible-playbook -i hosts install/elk.yml
 #server=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=elk" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
 
 #comment this
-server=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=tests" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
+server=`aws ec2 describe-instances --region us-east-2 --filters "Name=tag:Name,Values=elk_server" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
 
 
 ansible-playbook -i hosts install/elk-client.yml --extra-vars 'elk_server="'"$server"'"'
@@ -68,9 +68,9 @@ bash ssh_auto/spring_auto_boot.sh
 #bash mvn_auto_application.sh
 
 #Comment from the below line to
-client=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=testc" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text`
+client=`aws ec2 describe-instances --region us-east-2 --filters "Name=tag:Name,Values=elk_client" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text`
 
-ssh -o StrictHostKeyChecking=no -i "IOT-Pavan-Keypair.pem" ec2-user@"$client" <<'ENDSSH' 
+ssh -o StrictHostKeyChecking=no -i "elkprometheuskey.pem" ec2-user@"$client" <<'ENDSSH' 
 sudo su
 yum install lsof -y
 cd /home/ec2-user/spring*
@@ -81,4 +81,4 @@ ENDSSH
 
 #Comment till the above line
 
-rm -rf IOT-Pavan-Keypair.pem
+rm -rf elkprometheuskey.pem
