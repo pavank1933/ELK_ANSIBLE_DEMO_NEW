@@ -1,6 +1,9 @@
 #!/bin/bash 
 #Before executing main.sh script, execute terraform template to create infra first to automate this script
 
+keypair="elkprometheuskey.pem"
+aws_region="us-east-2"
+
 >iplist
 >../hosts
 
@@ -18,7 +21,7 @@ pip3 install --upgrade awscli
 #comment the below line...this gets automated in terraform template
 sleep 200
 
-cp -rpf /home/elkprometheuskey.pem .
+cp -rpf /home/$keypair .
 
 #comment this
 sh hosts_auto.sh
@@ -32,12 +35,12 @@ input="iplist"
 while IFS= read -r var 
 do
 cp -rpf /root/.ssh/id_rsa.pub .
-rsync -rave "ssh -o StrictHostKeyChecking=no -i elkprometheuskey.pem" * ec2-user@"$var":/home/ec2-user
-ssh -n -o StrictHostKeyChecking=no -i "elkprometheuskey.pem" ec2-user@"$var" "chmod a+x /home/ec2-user/ssh_auto.sh"
-ssh -n -o StrictHostKeyChecking=no -i "elkprometheuskey.pem" ec2-user@"$var" '/home/ec2-user/ssh_auto.sh'
+rsync -rave "ssh -o StrictHostKeyChecking=no -i $keypair" * ec2-user@"$var":/home/ec2-user
+ssh -n -o StrictHostKeyChecking=no -i "$keypair" ec2-user@"$var" "chmod a+x /home/ec2-user/ssh_auto.sh"
+ssh -n -o StrictHostKeyChecking=no -i "$keypair" ec2-user@"$var" '/home/ec2-user/ssh_auto.sh'
 done < "$input"
 
-rm -rf id_rsa.pub elkprometheuskey.pem
+rm -rf id_rsa.pub $keypair
 
 cd ..
 
@@ -50,13 +53,13 @@ ansible-playbook -i hosts install/elk.yml
 #server=`aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=elk" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
 
 #comment this
-server=`aws ec2 describe-instances --region us-east-2 --filters "Name=tag:Name,Values=elk_server" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
+server=`aws ec2 describe-instances --region $aws_region --filters "Name=tag:Name,Values=elk_server" --query "Reservations[*].Instances[*].PrivateIpAddress" --output=text`
 
 
 ansible-playbook -i hosts install/elk-client.yml --extra-vars 'elk_server="'"$server"'"'
 
 
-#cp -rpf /home/IOT-Pavan-Keypair.pem .
+#cp -rpf /home/$keypair .
 
 #Uncomment this...To automate filebeat at every application
 #bash spring_auto_boot_final.sh
@@ -68,9 +71,9 @@ bash ssh_auto/spring_auto_boot.sh
 #bash mvn_auto_application.sh
 
 #Comment from the below line to
-client=`aws ec2 describe-instances --region us-east-2 --filters "Name=tag:Name,Values=elk_client" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text`
+client=`aws ec2 describe-instances --region $aws_region --filters "Name=tag:Name,Values=elk_client" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text`
 
-ssh -o StrictHostKeyChecking=no -i "elkprometheuskey.pem" ec2-user@"$client" <<'ENDSSH' 
+ssh -o StrictHostKeyChecking=no -i "$keypair" ec2-user@"$client" <<'ENDSSH' 
 sudo su
 yum install lsof -y
 cd /home/ec2-user/spring*
@@ -81,4 +84,4 @@ ENDSSH
 
 #Comment till the above line
 
-rm -rf elkprometheuskey.pem
+rm -rf $keypair
