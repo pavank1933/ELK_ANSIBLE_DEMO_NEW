@@ -7,8 +7,8 @@ aws_region="us-east-2"
 >iplist
 >../hosts
 
-apt-get install python3-pip -y
-pip3 install --upgrade awscli
+#apt-get install python3-pip -y
+#pip3 install --upgrade awscli
 
 #comment the below line...this gets automated in terraform template
 #aws ec2 run-instances --iam-instance-profile Name=Admin_Role --image-id ami-26ebbc5c --count 1 --instance-type t2.medium --key-name IOT-Pavan-Keypair --security-group-ids sg-99e802e5 --placement AvailabilityZone=us-east-1a --block-device-mappings DeviceName=/dev/xvda,Ebs={VolumeSize=35} --count 1 --subnet-id subnet-a4ff9dff --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=tests}]' 'ResourceType=volume,Tags=[{Key=Name,Value=tests}]'
